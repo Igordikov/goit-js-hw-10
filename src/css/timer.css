@@ -1,0 +1,30 @@
+
+
+@import url(./styles.css);
+
+
+
+.button {
+    margin-bottom: 20px;
+}
+
+.timer {
+    display: flex;
+    gap: 15px;
+}
+
+.value {
+    font-size: 30px;
+    color: black;
+}
+
+.label {
+   color: black;
+}
+
+.btn-start {
+    width: 50px;
+    height: 25px;
+    text-align: center;
+    
+}

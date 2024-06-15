@@ -1,0 +1,47 @@
+
+
+@import url(./styles.css);
+
+
+
+
+
+.button {
+    margin-bottom: 20px;
+}
+
+.label-css {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    
+gap: 10px;
+    color: black;
+  
+}
+
+.fieldset-css {
+   padding: 5px 0 15px 0;
+ border: 1px solid black; 
+ max-width: 300px;
+ display: flex;
+gap: 30px;
+ color: black;
+ 
+ margin-bottom: 15px;
+}
+
+.btn-snackbar {
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(124, 79, 79, 0.8);
+border: 1px solid;
+padding: 5px 20px;
+width: 300px;
+background-color:rgb(139, 175, 175);
+color: black;
+}
+
+.state-css {
+    margin-left: 20px;
+    font-size: 20px;
+}

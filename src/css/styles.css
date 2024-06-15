@@ -1,12 +1,16 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
+
+
+
 @import url('./reset.css');
-@import url('./vite-promo.css');
-@import url('./header.css');
+
+@import url('../../node_modules/bulma/css/bulma.min.css');
+
+@import url('../../node_modules/izitoast/dist/css/iziToast.min.css');
+
+
+
+
+
 
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -22,4 +26,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+/* index html styles */
+
+.container {
+  padding-top: 50px;
+}
+
+.button {
+  box-shadow: 5px 5px 5px rgba(124, 79, 79, 0.5);
+  width: 200px;
+  height: 50px;
+}
+.navigation {
+  display: flex;
+ justify-content: center;
+gap: 20px;  
 }
