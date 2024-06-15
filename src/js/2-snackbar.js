@@ -1,7 +1,7 @@
 
 // import
 
-import iziToast from "iziToast";
+import iziToast from "izitoast";
 
 // =================================================================================
 
