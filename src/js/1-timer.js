@@ -3,9 +3,9 @@
 import flatpickr from "flatpickr";
 
 import "flatpickr/dist/flatpickr.min.css";
+import iziToast from "izitoast";
 
 // =============================================================
-
 
 
 
@@ -24,24 +24,27 @@ import "flatpickr/dist/flatpickr.min.css";
 
 // =============================================================
 
+startBtn.disabled = true;
 
+let countdownActive = false;
 
-
-
-// "Please choose a date in the future"
 
 // click to button
 
-startBtn.addEventListener('click', () => {
-const initTime = Date.now();
+let initTime;
 
+startBtn.addEventListener('click', () => {
+
+    countdownActive = true;
 
     startBtn.disabled = true;
     input.disabled = true;
 
+    
+
     setInterval(() => {
         const currentTime = Date.now();
-        const differenceInTime = currentTime - initTime;
+        const differenceInTime = initTime - currentTime;
         const time = convertMS(differenceInTime);
         const strTime = getTime(time);
         
@@ -59,57 +62,84 @@ const initTime = Date.now();
 
 // convert mls to date-obj
 
-function convertMS(ms) {
-    const s = Math.floor(ms / 1000);
-    const m = Math.floor(s / 60) % 60;
-    const h = Math.floor(s / 3600) % 24;
-    const d = Math.floor(s / 86400);
-    const seconds = s % 60;
+let isErrorNotified = false;
+
+function convertMS(ms, e = null) {
+    let s = Math.floor(ms / 1000);
+    let m = Math.floor(s / 60) % 60;
+    let h = Math.floor(s / 3600) % 24;
+    let d = Math.floor(s / 86400);
+    s %= 60;
+    m %= 60;
+    h %= 24;
 
     if (initTime < Date.now()) {
-        alert("Please choose a date in the future");
-        input.value = ' ';
-        e.stopPropagation();
+        if (!isErrorNotified) {
+       iziToast.error ({
+        title: 'Помилка',
+        message: 'Please choose a date in the future',
+        position: "topRight",
+        onClosing: function () {
+            input.disabled = false;
+            startBtn.disabled = false;
+          }
+       });
+       isErrorNotified = true;
+    }
+       input.value = '';
+        if (e) e.stopPropagation();
         return {d:0, h:0, m:0, s:0};
+    
+    } else {
+        isErrorNotified = false;
     }
     
-    return { d, h, m, s: seconds };
+    return {d, h, m, s};
 }
 
 // =============================================================
 
 
 
-
-
-
-// function from ftatpickr
-
-let initTime;
-
-flatpickr(input, {
-    enableTime: true,
-    time_24hr: true,
-    onClose: (selectedDates) => {
-        const userDate = selectedDates[0];
-        initTime = userDate;
-        requestAnimationFrame(updateCountdown);
-    },
-});
-
 function updateCountdown() {
+    if (!countdownActive) return; // Если таймер не активен, выходим из функции
+
     const currentTime = Date.now();
     const differenceInTime = initTime - currentTime;
+    
+    if (differenceInTime <= 0) {
+       
+        countdownActive = false;
+        input.disabled = false;
+        startBtn.disabled = false;
+        
+        return;
+    }
+
     const time = convertMS(differenceInTime);
     const strTime = getTime(time);
     console.log(strTime);
     requestAnimationFrame(updateCountdown);
 }
 
+
+
+
+// function from ftatpickr
+
+flatpickr(input, {
+    // ...
+    onClose: (selectedDates) => {
+        const userDate = selectedDates[0];
+        initTime = userDate;
+       
+        startBtn.disabled = false;
+        requestAnimationFrame(updateCountdown);
+    },
+});
+
+
 // =============================================================
-
-
-
 
 
 
