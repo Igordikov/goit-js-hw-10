@@ -82,7 +82,9 @@ function convertMS(ms, e = null) {
         onClosing: function () {
             input.disabled = false;
             startBtn.disabled = false;
+            countdownActive = false;
           }
+          
        });
        isErrorNotified = true;
     }
@@ -102,8 +104,7 @@ function convertMS(ms, e = null) {
 
 
 function updateCountdown() {
-    if (!countdownActive) return; // Если таймер не активен, выходим из функции
-
+    if (!countdownActive) return; 
     const currentTime = Date.now();
     const differenceInTime = initTime - currentTime;
     
@@ -159,6 +160,9 @@ function getTime({d, h, m, s}) {
 
     return `${days}:${hours}:${minutes}:${seconds}`;
 }
+
+
+
 
  // =============================================================
 
