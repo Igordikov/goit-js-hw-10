@@ -32,6 +32,7 @@ let countdownActive = false;
 // click to button
 
 let initTime;
+let intervalId;
 
 startBtn.addEventListener('click', () => {
 
@@ -42,7 +43,7 @@ startBtn.addEventListener('click', () => {
 
     
 
-    setInterval(() => {
+    intervalId = setInterval(() => {
         const currentTime = Date.now();
         const differenceInTime = initTime - currentTime;
         const time = convertMS(differenceInTime);
@@ -95,8 +96,9 @@ function convertMS(ms, e = null) {
     } else {
         isErrorNotified = false;
     }
-    
+   
     return {d, h, m, s};
+  
 }
 
 // =============================================================
@@ -104,23 +106,24 @@ function convertMS(ms, e = null) {
 
 
 function updateCountdown() {
-    if (!countdownActive) return; 
+    if (!countdownActive) 
+        return; 
     const currentTime = Date.now();
     const differenceInTime = initTime - currentTime;
     
     if (differenceInTime <= 0) {
-       
+        clearInterval(intervalId);
         countdownActive = false;
         input.disabled = false;
         startBtn.disabled = false;
-        
+
         return;
     }
 
     const time = convertMS(differenceInTime);
     const strTime = getTime(time);
     console.log(strTime);
-    requestAnimationFrame(updateCountdown);
+    
 }
 
 
@@ -129,10 +132,17 @@ function updateCountdown() {
 // function from ftatpickr
 
 flatpickr(input, {
-    // ...
+
+    enableTime: true,
+    time_24hr: true,
+    // minDate: "today",можна зробити так
+    
     onClose: (selectedDates) => {
-        const userDate = selectedDates[0];
-        initTime = userDate;
+        if (selectedDates.length > 0) {
+            const userDate = selectedDates[0];
+            initTime = userDate.getTime();
+                
+        }
        
         startBtn.disabled = false;
         requestAnimationFrame(updateCountdown);
